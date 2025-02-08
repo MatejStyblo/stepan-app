@@ -1,38 +1,140 @@
-.App {
-  text-align: center;
-}
+.button-delete {
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    width: 100px;
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background: #e62222;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+    position: absolute;
+    overflow: hidden;
+    top: 5px;
+    right: 5px;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  
+  .button-delete, .button-delete span {
+    transition: 200ms;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .button-delete .text {
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    white-space: nowrap;
   }
-}
+  
+  .button-delete .icon {
+    position: absolute;
+    border-left: 1px solid #c41b1b;
+    transform: translateX(70px);
+    height: 40px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 200ms;
+  }
+  
+  .button-delete svg {
+    width: 15px;
+    fill: #eee;
+  }
+  
+  .button-delete:hover {
+    background: #ff3636;
+  }
+  
+  .button-delete:hover .text {
+    color: transparent;
+  }
+  
+  .button-delete:hover .icon {
+    width: 100px;
+    border-left: none;
+    transform: translateX(0);
+  }
+  
+  .button-delete:focus {
+    outline: none;
+  }
+  
+  .button-delete:active .icon svg {
+    transform: scale(0.8);
+  }
+  .add-article-btn {
+    justify-self: center;
+    width: 150px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background: #00a600;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+    background: #00a600;
+  }
+  
+  .add-article-btn,
+  .add-article-btn span {
+    transition: 200ms;
+  }
+  
+  .add-article-btn .text {
+    transform: translateX(15px);
+    color: white;
+    font-weight: bold;
+  }
+  
+  .add-article-btn .icon {
+    position: absolute;
+    border-left: 1px solid #007300;
+    transform: translateX(110px);
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .add-article-btn svg {
+    width: 15px;
+    fill: #eee;
+  }
+  
+  .add-article-btn:hover {
+    background: #00a600;
+  }
+  
+  .add-article-btn:active {
+    background: #00cc00;
+  }
+  
+  .add-article-btn:hover .text {
+    color: transparent;
+  }
+  
+  .add-article-btn:hover .icon {
+    width: 150px;
+    border-left: none;
+    transform: translateX(0);
+  }
+  
+  .add-article-btn:focus {
+    outline: none;
+  }
+  
+  .add-article-btn:active .icon svg {
+    transform: scale(0.8);
+  }
+  
+  .buttonSpan {
+    color: white;
+    margin: 150px;
+    font-size: 30px;
+  }
+  
