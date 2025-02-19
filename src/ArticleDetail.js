@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import TextEditor from "./TextEditor";
 import axios from "axios";
 
-const ArticleDetail = ({ articles, onArticleClick }) => {
+const ArticleDetail = ({ articles, onArticleClick, isLoggedIn }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const article = articles.find((article) => article.id === parseInt(id));
@@ -45,7 +45,7 @@ const ArticleDetail = ({ articles, onArticleClick }) => {
 
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/upload",
+          `${process.env.REACT_APP_HOST_URL}/api/upload`,
           formData
         );
         const data = response.data; // axios automaticky přetváří JSON na objekt
@@ -61,7 +61,7 @@ const ArticleDetail = ({ articles, onArticleClick }) => {
 
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/articles/${article.id}`,
+        `${process.env.REACT_APP_HOST_URL}/api/articles/${article.id}`,
         updatedArticle,
         {
           headers: {
@@ -80,15 +80,17 @@ const ArticleDetail = ({ articles, onArticleClick }) => {
       console.error("Chyba při ukládání článku:", error);
     }
   };
-  const imageUrl = `http://localhost:5000${editedArticle.imageUrl}`;
+  const imageUrl = `${process.env.REACT_APP_HOST_URL}${editedArticle.imageUrl}`;
   console.log(editedArticle.imageUrl);
-  console.log(`http://localhost:5000${editedArticle.imageUrl}`);
+  console.log(`${process.env.REACT_APP_HOST_URL}${editedArticle.imageUrl}`);
 
   return (
     <div className="article-detail">
-      <p>Datum vytvoření: {new Date(article.createdAt).toLocaleDateString()}</p>
+      <p className="article-detail-date">
+        Datum vytvoření: {new Date(article.createdAt).toLocaleDateString()}
+      </p>
       <h2>{article.title}</h2>
-      <h3>Organizátor: {article.organizer}</h3>
+      <h3>{article.organizer}</h3>
 
       {isEditing && (
         <div>
@@ -106,7 +108,9 @@ const ArticleDetail = ({ articles, onArticleClick }) => {
         handleSaveClick={handleSaveClick}
         isEditing={isEditing}
       />
-      {!isEditing && <button onClick={handleEditClick}>Editovat</button>}
+      {!isEditing && isLoggedIn && (
+        <button onClick={handleEditClick}>Editovat</button>
+      )}
       <button onClick={() => navigate("/")}>Zpět na seznam</button>
     </div>
   );
