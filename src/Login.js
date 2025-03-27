@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
 
-function Login({ onLogin, onLogout, isLoggedIn }) {
+function Login({ onLogin, isLoggedIn }) {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  console.log(isLoggedIn);
 
   const handleSubmit = (e) => {
     e.preventDefault();
