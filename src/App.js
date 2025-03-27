@@ -5,10 +5,11 @@ import "./App.css";
 import Login from "./Login";
 import ArticleList from "./ArticleList";
 import ArticleDetail from "./ArticleDetail";
+import { IoIosLogOut } from "react-icons/io";
 
 function App() {
   const [articles, setArticles] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
 
   useEffect(() => {
     fetchArticles();
@@ -34,12 +35,12 @@ function App() {
         `${process.env.REACT_APP_HOST_URL}/api/articles`,
         {
           title: "Nadpis",
-          createdAt: new Date().toISOString(),
+          createdAt: "",
           whatIsThat: "Co to je",
           organizer: "Pořadatel",
           content: "Obsah článku",
           summary: "Vše",
-          imageUrl: "", // Změněno z `image: {}` na `imageUrl: ""`
+          imageUrl: "",
         }
       );
       setArticles([...articles, response.data]);
@@ -85,42 +86,66 @@ function App() {
   };
 
   useEffect(() => {
-    const storedLogin = localStorage.getItem("isLoggedIn");
-    if (storedLogin === "true") {
-      setIsLoggedIn(true);
-    }
-  }, []);
+    if (token) fetchArticles();
+  }, [token]);
 
-  const handleLogin = (password) => {
-    if (password === "matej") {
-      setIsLoggedIn(true);
-      localStorage.setItem("isLoggedIn", "true");
-    } else {
-      alert("Neplatné heslo");
+  const handleLogin = async (password) => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_HOST_URL}/api/login`,
+        {
+          password,
+        }
+      );
+      setToken(response.data.token);
+      localStorage.setItem("token", response.data.token);
+    } catch (error) {
+      console.error(
+        "Chyba při přihlašování:",
+        error.response?.data || error.message
+      );
+      alert("Špatné přihlašovací údaje");
     }
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
-    localStorage.removeItem("isLoggedIn");
+    setToken("");
+    localStorage.removeItem("token");
   };
 
   return (
     <Router>
       <div className="app-container">
-        {!isLoggedIn && (
-          <Login onLogin={handleLogin} handleLogout={handleLogout} />
-        )}
-        <h1 className="app-title">Štěpánův kult</h1>
+        {token && (
+          <button className="logout" onClick={handleLogout}>
+            <div className="sign">
+              <span>
+                <IoIosLogOut />
+              </span>
+            </div>
 
+            <div className="text">Odhlášení</div>
+          </button>
+        )}
+        <h1 className="app-title">Studentské spolky na UPCE</h1>
         <Routes>
+          <Route
+            path="/login"
+            element={
+              <Login
+                onLogin={handleLogin}
+                onLogout={handleLogout}
+                isLoggedIn={token}
+              />
+            }
+          />
           <Route
             path="/"
             element={
               <ArticleList
                 articles={articles}
                 onArticleClick={handleEditArticle}
-                isLoggedIn={isLoggedIn}
+                isLoggedIn={token}
                 handleDeleteArticle={handleDeleteArticle}
                 handleAddArticle={handleAddArticle}
               />
@@ -130,7 +155,7 @@ function App() {
             path="/article/:id"
             element={
               <ArticleDetail
-                isLoggedIn={isLoggedIn}
+                isLoggedIn={token}
                 onArticleClick={handleEditArticle}
                 articles={articles}
               />

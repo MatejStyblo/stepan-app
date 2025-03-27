@@ -137,4 +137,78 @@
     margin: 150px;
     font-size: 30px;
   }
-  
+  /* From Uiverse.io by kennyotsu-monochromia */ 
+.logout {
+  --black: #000000;
+  --ch-black: #141414;
+  --eer-black: #1b1b1b;
+  --night-rider: #2e2e2e;
+  --white: #ffffff;
+  --af-white: #f3f3f3;
+  --ch-white: #e1e1e1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition-duration: .3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+  background-color: var(--night-rider);
+  margin-left: 15px;
+  top: 15px;
+}
+
+/* plus sign */
+.sign {
+  width: 100%;
+  transition-duration: .3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg{
+    font-size: 20px;
+  }
+}
+
+.sign svg {
+  width: 17px;
+}
+
+.sign svg path {
+  fill: var(--af-white);
+}
+/* text */
+.text {
+
+  color: var(--af-white);
+  font-size: 1.2em;
+  font-weight: 600;
+  transition-duration: .3s;
+}
+/* hover effect on button width */
+.logout {
+  width: 125px;
+  border-radius: 5px;
+  transition-duration: .3s;
+}
+
+.logout .sign {
+  width: 30%;
+  transition-duration: .3s;
+}
+
+.logout .text {
+  opacity: 1;
+  width: 70%;
+  transition-duration: .3s;
+  padding-right: 10px;
+}
+
+.logout:active {
+  transform: translate(2px ,2px);
+}

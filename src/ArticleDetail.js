@@ -11,7 +11,6 @@ const ArticleDetail = ({ articles, onArticleClick, isLoggedIn }) => {
   const [editedArticle, setEditedArticle] = useState(article || {});
   const [isEditing, setIsEditing] = useState(false);
   const [imageFile, setImageFile] = useState(null);
-
   useEffect(() => {
     if (article) {
       setEditedArticle(article);
@@ -30,6 +29,28 @@ const ArticleDetail = ({ articles, onArticleClick, isLoggedIn }) => {
     const file = event.target.files[0];
     if (file) {
       setImageFile(file);
+    }
+  };
+  const handleDeleteImage = async () => {
+    const updatedArticle = { ...editedArticle, imageUrl: "" };
+
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_HOST_URL}/api/articles/${editedArticle.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedArticle),
+        }
+      );
+
+      if (!response.ok) throw new Error("Chyba při mazání obrázku");
+
+      const updatedData = await response.json();
+      setEditedArticle(updatedData);
+      window.location.reload();
+    } catch (error) {
+      console.error("Chyba:", error);
     }
   };
 
@@ -81,20 +102,19 @@ const ArticleDetail = ({ articles, onArticleClick, isLoggedIn }) => {
     }
   };
   const imageUrl = `${process.env.REACT_APP_HOST_URL}${editedArticle.imageUrl}`;
-  console.log(editedArticle.imageUrl);
-  console.log(`${process.env.REACT_APP_HOST_URL}${editedArticle.imageUrl}`);
 
   return (
     <div className="article-detail">
-      <p className="article-detail-date">
-        Datum vytvoření: {new Date(article.createdAt).toLocaleDateString()}
-      </p>
+      <p className="article-detail-date">{article.createdAt}</p>
       <h2>{article.title}</h2>
       <h3>{article.organizer}</h3>
 
       {isEditing && (
         <div>
           <input type="file" accept="image/*" onChange={handleImageChange} />
+          {editedArticle.imageUrl && (
+            <button onClick={() => handleDeleteImage()}>Smazat obrázek</button>
+          )}
         </div>
       )}
 

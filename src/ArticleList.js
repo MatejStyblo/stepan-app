@@ -72,6 +72,18 @@ const ArticleList = ({
             <>
               <input
                 type="text"
+                value={editedArticle.createdAt}
+                onChange={(e) =>
+                  setEditedArticle({
+                    ...editedArticle,
+                    createdAt: e.target.value,
+                  })
+                }
+                onClick={(e) => e.stopPropagation()}
+                aria-label="Edit title"
+              />
+              <input
+                type="text"
                 value={editedArticle.title}
                 onChange={(e) =>
                   setEditedArticle({ ...editedArticle, title: e.target.value })
@@ -111,7 +123,6 @@ const ArticleList = ({
                   className="button-delete"
                   onClick={(e) => handleDeleteClick(article.id, e)}
                   aria-label="Smazat článek"
-                  role="button"
                 >
                   <span className="text">Smazat</span>
                   <span className="icon">
@@ -126,10 +137,7 @@ const ArticleList = ({
                   aria-label="Upravit článek"
                 />
               )}
-              <p className="article-list-date">
-                Datum vytvoření:{" "}
-                {new Date(article.createdAt).toLocaleDateString()}
-              </p>
+              <p className="article-list-date">{article.createdAt}</p>
               <h2>{article.title}</h2>
               <h3>{article.organizer}</h3>
               <p className="article-list-content">{article.content}</p>
